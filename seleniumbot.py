@@ -18,11 +18,13 @@ def whatsappWebConnection(chromeDriverPath, targetNameCheck):
 
     chrome_options = Options()  # Saving the last session
     chrome_options.add_argument("user-data-dir=selenium")
-    driver = webdriver.Chrome(chromeDriverPath, chrome_options=chrome_options)
-    driver.get('https://web.whatsapp.com/')
+    
+    driver = webdriver.Chrome(chromeDriverPath, chrome_options=chrome_options) # Open Chrome as the bot
+    driver.get('https://web.whatsapp.com/')  # Open WhatsApp Web in Chrome
 
     while 1:
         time.sleep(1)
+        # Check if the user has logged in
         try:
             # The class only exists after the QR login page
             appLoad = driver.find_element_by_class_name(targetNameCheck)
@@ -33,24 +35,28 @@ def whatsappWebConnection(chromeDriverPath, targetNameCheck):
 
 
 def sendMessage(msg, textBoxName, buttonName):
-    msg_box = driver.find_element_by_class_name(textBoxName)
-    msg_box.send_keys(msg)
-    button = driver.find_element_by_class_name(buttonName)
-    button.click()
+    # Get a string that will be sent, a string of the ID of the textBox (it changes from time to time so it has to be hard codded)
+    # and the ID of the send button
+    msg_box = driver.find_element_by_class_name(
+        textBoxName)  # Find the text box
+    msg_box.send_keys(msg)  # Selenium types in the message that it has gotten
+    button = driver.find_element_by_class_name(
+        buttonName)  # Find the send button
+    button.click()  # Click on the send button
 
 
-def readAllMessages(textDirection, outMessageBox):
-    global driver
-    messages = None
-
-    while(1):
-        try:
-            messages = driver.find_elements_by_xpath(
-                '//span[@class="' + outMessageBox + '"]')
-            return messages
-
-        except (NoSuchElementException, StaleElementReferenceException) as e:
-            return ''
+# def readAllMessages(textDirection, outMessageBox):
+#    global driver
+#    messages = None
+#
+#    while(1):
+#        try:
+#            messages = driver.find_elements_by_xpath(
+#                '//span[@class="' + outMessageBox + '"]')
+#            return messages
+#
+#        except (NoSuchElementException, StaleElementReferenceException) as e:
+#            return ''
 
 
 def getLastMessage(textDirection):
@@ -60,22 +66,24 @@ def getLastMessage(textDirection):
     while(1):
         try:
             messages = driver.find_elements_by_xpath(
-                '//span[@dir="ltr"]')
+                '//span[@dir="ltr"]')  # Find all the messages from a chat using their xpath
+            # Get the last message that was sent
             newMessage = messages[-1].text
-            return str(newMessage)
+            return str(newMessage)  # Return the last message as a string
 
         except (NoSuchElementException, StaleElementReferenceException) as e:
-            return ''
+            return ''  # Return an empty string if there was an error or if nothing was found
 
 
 def enterChat(targetName):
+    # Click on the chat it is given
     targetName.click()
 
 
 def getChats(targetName):
     global driver
     try:
-        print("here")
+        # Return all the chat button elements
         return driver.find_elements_by_class_name(targetName)
     except:
-        print("could not find")
+        print("could not find chats")

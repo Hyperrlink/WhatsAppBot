@@ -8,11 +8,13 @@ from googlesearch import search
 import time
 
 PATH = 'C:/Program Files (x86)/Google/Chrome/Application/chromedriver.exe'
-TEXTBOXNAME = '_13mgZ'
+TEXTBOXNAME = '_3uMse'
 MESSAGEBOXNAME = 'copyable-text'
-TARGETNAMECHECK = '_2UaNq'
-BUTTONNAME = '_3M-N-'
-OUTMESSAGEBOXNAME = 'X7YrQ'
+#TARGETNAMECHECK = '_2UaNq'
+TARGETNAMECHECK = '_210SC'
+BUTTONNAME = '_1U1xa'
+#OUTMESSAGEBOXNAME = 'X7YrQ'
+OUTMESSAGEBOXNAME = '_210SC'
 
 BOTPREFIX = '*Jarvis:* '
 
@@ -78,6 +80,8 @@ def executeCommand(message):
 def main():
     seleniumbot.whatsappWebConnection(PATH, targetNameCheck=TARGETNAMECHECK)
     chats = seleniumbot.getChats(OUTMESSAGEBOXNAME)
+
+    print(len(chats), "hello")
 
     while True:
         for chat in chats:

@@ -21,7 +21,7 @@ def whatsappWebConnection(chromeDriverPath, targetNameCheck):
     driver = webdriver.Chrome(chromeDriverPath, chrome_options=chrome_options)
     driver.get('https://web.whatsapp.com/')
 
-    while True:
+    while 1:
         time.sleep(1)
         try:
             # The class only exists after the QR login page
@@ -75,6 +75,7 @@ def enterChat(targetName):
 def getChats(targetName):
     global driver
     try:
+        print("here")
         return driver.find_elements_by_class_name(targetName)
     except:
-        pass
+        print("could not find")
